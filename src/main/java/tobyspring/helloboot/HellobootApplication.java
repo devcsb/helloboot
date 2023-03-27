@@ -15,19 +15,21 @@ import java.io.IOException;
 
 public class HellobootApplication {
 
-	public static void main(String[] args) {
-		ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
-		WebServer webServer = serverFactory.getWebServer(servletContext -> {
-			servletContext.addServlet("hello", new HttpServlet() {
-				@Override
-				protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-					response.setStatus(HttpStatus.OK.value());
-					response.setContentType(MediaType.TEXT_PLAIN_VALUE);
-					response.getWriter().println("Hello Servlet");
-				}
-			}).addMapping("/hello");
+    public static void main(String[] args) {
+        ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
+        WebServer webServer = serverFactory.getWebServer(servletContext -> {
+            servletContext.addServlet("hello", new HttpServlet() {
+                @Override
+                protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+                    String name = request.getParameter("name");
 
-		});
-		webServer.start();
-	}
+                    response.setStatus(HttpStatus.OK.value());
+                    response.setContentType(MediaType.TEXT_PLAIN_VALUE);
+                    response.getWriter().println("Hello " + name);
+                }
+            }).addMapping("/hello");
+
+        });
+        webServer.start();
+    }
 }
