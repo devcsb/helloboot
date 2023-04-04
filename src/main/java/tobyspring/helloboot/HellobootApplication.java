@@ -19,18 +19,22 @@ public class HellobootApplication {
     public static void main(String[] args) {
         ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
         WebServer webServer = serverFactory.getWebServer(servletContext -> {
+            HelloController helloController = new HelloController();
+
             servletContext.addServlet("frontController", new HttpServlet() {
                 @Override
                 protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-                    //인증, 보안, 다국어처리 등 공통 기능을 처리
+                    //인증, 보안, 다국어처리 등 공통 기능을 처리하는 코드가 위치할 부분...
 
                     // 매핑 작업
                     if (request.getRequestURI().equals("/hello") && request.getMethod().equals(HttpMethod.GET.name())){
                         String name = request.getParameter("name");
 
-                        response.setStatus(HttpStatus.OK.value());
+                        String returnValue = helloController.hello(name);
+
+                        response.setStatus(HttpStatus.OK.value()); // 생략해도 무방함.(서블릿에서 에러가 발생하지 않을시 200을 자동으로 내려주므로)
                         response.setContentType(MediaType.TEXT_PLAIN_VALUE);
-                        response.getWriter().println("Hello " + name);
+                        response.getWriter().println(returnValue);
                     }
                     else if (request.getRequestURI().equals("/user")) {
                         //
@@ -39,7 +43,7 @@ public class HellobootApplication {
                         response.setStatus(HttpStatus.NOT_FOUND.value());
                     }
                 }
-            }).addMapping("/*"); // 1.모든 요청을 받는다.
+            }).addMapping("/*");
 
         });
         webServer.start();
