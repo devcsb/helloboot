@@ -25,7 +25,6 @@ public class HellobootApplication {
         applicationContext.registerBean(SimpleHelloService.class);
         applicationContext.refresh();
 
-
         ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
         WebServer webServer = serverFactory.getWebServer(servletContext -> {
             servletContext.addServlet("dispatcherServlet",
