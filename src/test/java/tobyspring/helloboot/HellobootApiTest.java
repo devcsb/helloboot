@@ -17,12 +17,12 @@ class HellobootApiTest {
     void helloApi() throws Exception {
         TestRestTemplate rest = new TestRestTemplate();
 
-        ResponseEntity<String> response = rest.getForEntity("http://localhost:8080/hello?name={name}", String.class, "Spring");
+        ResponseEntity<String> response = rest.getForEntity("http://localhost:8080/hello?name={name}", String.class, "spring");
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getHeaders().getFirst(HttpHeaders.CONTENT_TYPE))
                 .startsWith(MediaType.TEXT_PLAIN_VALUE);
-        assertThat(response.getBody()).isEqualTo("*Hello Spring*");
+        assertThat(response.getBody()).isEqualTo("*Hello spring*");
     }
 
     @Test
