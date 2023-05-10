@@ -16,7 +16,7 @@ class HelloApiTest {
     void helloApi() throws Exception {
         TestRestTemplate rest = new TestRestTemplate();
 
-        ResponseEntity<String> response = rest.getForEntity("http://localhost:8080/app/hello?name={name}", String.class, "spring");
+        ResponseEntity<String> response = rest.getForEntity("http://localhost:9090/app/hello?name={name}", String.class, "spring");
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getHeaders().getFirst(HttpHeaders.CONTENT_TYPE))
@@ -28,7 +28,7 @@ class HelloApiTest {
     void failsHelloApi() throws Exception {
         TestRestTemplate rest = new TestRestTemplate();
 
-        ResponseEntity<String> response = rest.getForEntity("http://localhost:8080/app/hello?name=", String.class);
+        ResponseEntity<String> response = rest.getForEntity("http://localhost:9090/app/hello?name=", String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
     }

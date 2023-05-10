@@ -14,17 +14,22 @@ import tobyspring.config.MyAutoConfiguration;
 @ConditionalMyOnClass("org.apache.catalina.startup.Tomcat") // 1. 클래스의 존재로 해당 기술의 사용 여부를 확인하고
 public class TomcatWebServerConfig {
 
-    // @Value의 치환자를 프로퍼티 값으로 교체하려면 PropertySourcesPlaceholderConfigurer 타입의 빈을 등록해줘야 한다.
-    @Value("${contextPath}")
-    String contextPath;
+//    // @Value의 치환자를 프로퍼티 값으로 교체하려면 PropertySourcesPlaceholderConfigurer 타입의 빈을 등록해줘야 한다.
+//    @Value("${contextPath:}")
+//    String contextPath;
+//
+//    @Value("${port:8080}") // port 프로퍼티를 가져오고, 값이 없으면 default값으로 8080을 넣어준다.
+//    int port;
 
     // @Value로 값을 가져오는 방식
     @Bean("tomcatWebServerFactory")
     @ConditionalOnMissingBean // 2. 개발자가 직접 추가한 커스텀 빈 구성 중, 해당 메서드의 반환타입과 일치하는 빈이 있는지 확인하여, 일치하는 빈이 없을 때만 구성정보 적용
-    public ServletWebServerFactory servletWebServerFactory() {
-        System.out.println("contextPath = " + contextPath);
+    public ServletWebServerFactory servletWebServerFactory(ServerProperties properties) {
         TomcatServletWebServerFactory factory = new TomcatServletWebServerFactory();
-        factory.setContextPath(this.contextPath); // 모든 서블릿 매핑 앞에 contextPath 추가
+
+        factory.setContextPath(properties.getContextPath()); // 모든 서블릿 매핑 앞에 contextPath 추가
+        factory.setPort(properties.getPort());
+
         return factory;
     }
 
