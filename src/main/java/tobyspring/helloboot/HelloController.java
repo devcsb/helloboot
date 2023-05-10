@@ -12,7 +12,6 @@ public class HelloController {
 
     public HelloController(HelloService helloService) {
         this.helloService = helloService;
-        ;
     }
 
     @GetMapping("/hello")
