@@ -1,18 +1,13 @@
 package tobyspring.config.autoconfig;
 
-import org.springframework.boot.context.properties.bind.Binder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.core.env.Environment;
-import tobyspring.config.MyAutoConfiguration;
-
-@MyAutoConfiguration
+//@MyAutoConfiguration
 public class ServerPropertiesConfig {
 
     // Binder 클래스를 이용하여 간편하게 바인딩 가능.
-    @Bean
+/*    @Bean
     public ServerProperties serverProperties(Environment environment) {
         return Binder.get(environment).bind("", ServerProperties.class).get();
-    }
+    }*/
 
     // 직접 하나씩 꺼내와서 바인딩 하는 방식
 /*    @Bean
