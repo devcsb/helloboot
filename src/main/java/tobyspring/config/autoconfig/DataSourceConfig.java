@@ -2,8 +2,12 @@ package tobyspring.config.autoconfig;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnSingleCandidate;
 import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
+import org.springframework.jdbc.support.JdbcTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import tobyspring.config.ConditionalMyOnClass;
 import tobyspring.config.EnableMyConfigurationProperties;
 import tobyspring.config.MyAutoConfiguration;
@@ -14,11 +18,13 @@ import java.sql.Driver;
 @MyAutoConfiguration
 @ConditionalMyOnClass("org.springframework.jdbc.core.JdbcOperations")
 @EnableMyConfigurationProperties(MyDataSourceProperties.class)
+@EnableTransactionManagement
 public class DataSourceConfig {
 
     // DataSource 빈 등록이 중복되지 않도록, Condition으로 제어한다.
     @Bean
-    @ConditionalMyOnClass("com.zaxxer.hikari.HikariDataSource") // HikariDataSource가 있을 때, 등록.
+    @ConditionalMyOnClass("com.zaxxer.hikari.HikariDataSource")
+    // HikariDataSource가 있을 때, 등록.
     DataSource hikariDataSource(MyDataSourceProperties properties) {
         HikariDataSource dataSource = new HikariDataSource();
 
@@ -31,7 +37,8 @@ public class DataSourceConfig {
     }
 
     @Bean
-    @ConditionalOnMissingBean // 이미 등록된 DataSource 가 없을 때만 등록.
+    @ConditionalOnMissingBean
+        // 이미 등록된 DataSource 가 없을 때만 등록.
     DataSource dataSource(MyDataSourceProperties properties) throws ClassNotFoundException {
         SimpleDriverDataSource dataSource = new SimpleDriverDataSource(); // connection pool 없이 매번 새로운 커넥션 생성하는 테스트용 DataSource
 
@@ -42,4 +49,19 @@ public class DataSourceConfig {
 
         return dataSource;
     }
+
+    @Bean
+    @ConditionalOnSingleCandidate(DataSource.class)
+    @ConditionalOnMissingBean
+    JdbcTemplate jdbcTemplate(DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
+    }
+
+    @Bean
+    @ConditionalOnSingleCandidate(DataSource.class)
+    @ConditionalOnMissingBean
+    JdbcTransactionManager jdbcTransactionManager(DataSource dataSource) {
+        return new JdbcTransactionManager(dataSource);
+    }
+
 }
