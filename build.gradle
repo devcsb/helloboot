@@ -10,13 +10,18 @@ sourceCompatibility = '11'
 
 repositories {
 	mavenCentral()
+	maven {
+		url 'https://repo.clojars.org'
+		name 'Clojars'
+	}
 }
 
-dependencies {
-	implementation ('org.springframework.boot:spring-boot-starter-web') {
-//		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat' // 톰캣 의존성 제거
-	}
-//	implementation 'org.springframework.boot:spring-boot-starter-jetty'
+dependencies { // command + N (Generate -> Add dependency 로 인텔리제이 내에서 Module 검색 가능
+	implementation ('org.springframework.boot:spring-boot-starter-web')
+	implementation('org.springframework:spring-jdbc')
+	implementation 'hikari-cp:hikari-cp:3.0.1'// spring-jdbc
+	runtimeOnly('com.h2database:h2:2.1.214') // 코드에서 직접 사용할 일이 없으므로, implementation이 아닌 runtimeOnly로 설정
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
