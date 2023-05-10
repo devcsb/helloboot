@@ -5,6 +5,7 @@ import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactor
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
+import org.springframework.core.env.Environment;
 import tobyspring.config.ConditionalMyOnClass;
 import tobyspring.config.MyAutoConfiguration;
 
@@ -13,10 +14,13 @@ import tobyspring.config.MyAutoConfiguration;
 public class TomcatWebServerConfig {
     @Bean("tomcatWebServerFactory")
     @ConditionalOnMissingBean // 2. 개발자가 직접 추가한 커스텀 빈 구성 중, 해당 메서드의 반환타입과 일치하는 빈이 있는지 확인하여, 일치하는 빈이 없을 때만 구성정보 적용
-    public ServletWebServerFactory servletWebServerFactory() {
-        return new TomcatServletWebServerFactory();
+    public ServletWebServerFactory servletWebServerFactory(Environment env) {
+        TomcatServletWebServerFactory factory = new TomcatServletWebServerFactory();
+        factory.setContextPath(env.getProperty("contextPath")); // 모든 서블릿 매핑 앞에 contextPath 추가
+        return factory;
     }
 }
+
 /*
 * @Configuration 클래스 레벨의 @ConditionalOnClass 와 @Bean 메소드 레벨의 @ConditionalOnMissingBean 조합은 가장 대표적으로 사용되는 방식.
 * 클래스 레벨의 검증 없이 @Bean 메소드에만 적요하면 불필요하게 @Configuration 클래스가 빈으로 등록되기 때문.

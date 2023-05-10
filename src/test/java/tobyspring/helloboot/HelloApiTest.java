@@ -1,6 +1,5 @@
 package tobyspring.helloboot;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpHeaders;
@@ -11,13 +10,13 @@ import org.springframework.http.ResponseEntity;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-class HellobootApiTest {
+class HelloApiTest {
 
     @Test
     void helloApi() throws Exception {
         TestRestTemplate rest = new TestRestTemplate();
 
-        ResponseEntity<String> response = rest.getForEntity("http://localhost:8080/hello?name={name}", String.class, "spring");
+        ResponseEntity<String> response = rest.getForEntity("http://localhost:8080/app/hello?name={name}", String.class, "spring");
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getHeaders().getFirst(HttpHeaders.CONTENT_TYPE))
@@ -29,7 +28,7 @@ class HellobootApiTest {
     void failsHelloApi() throws Exception {
         TestRestTemplate rest = new TestRestTemplate();
 
-        ResponseEntity<String> response = rest.getForEntity("http://localhost:8080/hello?name=", String.class);
+        ResponseEntity<String> response = rest.getForEntity("http://localhost:8080/app/hello?name=", String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
     }
