@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class MyAutoConfigImportSelector implements DeferredImportSelector {
+public class MyAutoConfigImportSelector implements DeferredImportSelector { // 사용자 구성 정보가 모두 로딩된 이후에, 자동 구성정보가 적용되기 위해서 DeferredImportSelector를 구현해야 함.
     private final ClassLoader classLoader;
 
     public MyAutoConfigImportSelector(ClassLoader classLoader) {

@@ -14,9 +14,9 @@ repositories {
 
 dependencies {
 	implementation ('org.springframework.boot:spring-boot-starter-web') {
-		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat' // 톰캣 의존성 제거
+//		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat' // 톰캣 의존성 제거
 	}
-	implementation 'org.springframework.boot:spring-boot-starter-jetty'
+//	implementation 'org.springframework.boot:spring-boot-starter-jetty'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
