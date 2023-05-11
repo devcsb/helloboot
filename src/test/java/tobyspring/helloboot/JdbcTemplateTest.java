@@ -4,11 +4,12 @@ package tobyspring.helloboot;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@HellobootTest
+@JdbcTest
 public class JdbcTemplateTest {
     // @Transactional이 사용되는 테스트코드는 기본적으로 Rollback 된다. 원치 않을 땐, @Rollback(false) 어노테이션 설정을 사용.
 
