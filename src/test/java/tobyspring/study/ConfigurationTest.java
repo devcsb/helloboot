@@ -21,7 +21,7 @@ public class ConfigurationTest {
     }
 
     @Test
-    void 프록시를_사용하지_않는_경우() {
+    void 프록시를_사용하지_않는_경우엔_true가_반환된다() {
         MyConfig myConfig = new MyConfig();
 
         Bean1 bean1 = myConfig.bean1();
@@ -30,7 +30,7 @@ public class ConfigurationTest {
     }
 
     @Test
-    void 프록시를_사용하여_싱글톤을_보장하는_경우() { // 프록시를 사용해 싱글톤을 보장하는 방 테스트
+    void 프록시를_사용하여_싱글톤을_보장하는_경우엔_true가_반환된다() { // 프록시를 사용해 싱글톤을 보장하는 테스트
         MyconfigProxy myconfigProxy = new MyconfigProxy();
 
         Bean1 bean1 = myconfigProxy.bean1();
